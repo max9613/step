@@ -17,7 +17,10 @@
  */
 function addRandomGreeting() {
   const greetings =
-      ['I have 2 dogs.', 'I love Mike Tyson Mysteries.', 'I was once attacked by a turkey.', 'I can\'t say the alphabet backwards.'];
+      ['I love Mike Tyson Mysteries.', 'I was once attacked by a turkey.', 
+      'I can\'t say the alphabet backwards.', 'I\'ve seen the original Predator ~100 times.', 
+      'I played almost 400 hours of Mount and Blade Warband in middle school.',
+      'I once coded a neural net in Java from scratch and got it to 92% accuracy on MNIST.'];
 
   // Pick a random greeting.
   const greeting = greetings[Math.floor(Math.random() * greetings.length)];
