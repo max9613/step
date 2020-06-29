@@ -33,10 +33,9 @@ function getFunFact() {
 /**
  * Fetches a the message at /data.
  */
-function getDataMessage() {
+async function loadGreetingsContainer() {
   console.log('Fetching data message.');
-
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('server-message-container').innerText = quote;
-  });
+  const response = await fetch('/data');
+  const quote = await response.text();
+  document.getElementById('server-message-container').innerText = quote;
 }
