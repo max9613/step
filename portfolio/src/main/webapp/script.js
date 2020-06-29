@@ -29,3 +29,13 @@ function getFunFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+/**
+ * Fetches a the message at /data.
+ */
+async function loadGreetingsContainer() {
+  console.log('Fetching data message.');
+  const response = await fetch('/data');
+  const quote = await response.text();
+  document.getElementById('server-message-container').innerText = quote;
+}
