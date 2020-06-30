@@ -26,15 +26,6 @@ import java.util.ArrayList;
 @WebServlet("/water-rankings")
 public class WaterRankingServlet extends HttpServlet {
 
-  ArrayList<String> water_rankings = new ArrayList<String>();
-
-  public WaterRankingServlet() {
-      water_rankings.add("VOSS");
-      water_rankings.add("FIJI");
-      water_rankings.add("SMART WATER");
-      water_rankings.add("CRYSTAL GEYSER");
-  }
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
@@ -43,11 +34,12 @@ public class WaterRankingServlet extends HttpServlet {
     response.getWriter().println(output);
   }
 
-  private String[] getWaterRankings() {
-      String[] rankings = new String[water_rankings.size()];
-      for(int i = 0; i < rankings.length; i++) {
-          rankings[i] = water_rankings.get(i);
-      }
+  private ArrayList<String> getWaterRankings() {
+      ArrayList<String> rankings = new ArrayList<String>();
+      rankings.add("VOSS");
+      rankings.add("FIJI");
+      rankings.add("SMART WATER");
+      rankings.add("CRYSTAL GEYSER");
       return rankings;
   }
 }
