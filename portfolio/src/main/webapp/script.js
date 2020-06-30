@@ -31,21 +31,20 @@ function getFunFact() {
 }
 
 /**
-    Gets and displays my bottled water rankings from /data.
+    Gets and displays my bottled water rankings from /water-rankings.
  */
  async function getWaterRankings() {
      console.log('Fetching water ratings.');
-     const response = await fetch('/data');
+     const response = await fetch('/water-rankings');
      const json = await response.json();
      const ranking_container = document.getElementById('water-ranking-container');
      ranking_container.innerText = '';
-     if(ranking_container.children.length == 0) {
-         for(index in json) {
-            ranking_container.appendChild(
-                createListElement(json[index])
-            );
-        }
-     }
+     ranking_container.children = null;
+     for(index in json) {
+        ranking_container.appendChild(
+            createListElement(json[index])
+        );
+    }
      
  }
 
