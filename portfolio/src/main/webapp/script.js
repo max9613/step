@@ -31,11 +31,26 @@ function getFunFact() {
 }
 
 /**
- * Fetches a the message at /data.
+    Gets and displays my bottled water rankings from /water-rankings.
  */
-async function loadGreetingsContainer() {
-  console.log('Fetching data message.');
-  const response = await fetch('/data');
-  const quote = await response.text();
-  document.getElementById('server-message-container').innerText = quote;
-}
+ async function getWaterRankings() {
+     console.log('Fetching water ratings.');
+     const response = await fetch('/water-rankings');
+     const json = await response.json();
+     const ranking_container = document.getElementById('water-ranking-container');
+     ranking_container.innerText = '';
+     ranking_container.children = null;
+     for(index in json) {
+        ranking_container.appendChild(
+            createListElement(json[index])
+        );
+    }
+     
+ }
+
+ /** Creates an <li> element containing text. */
+ function createListElement(text) {
+    const liElement = document.createElement('li');
+    liElement.innerText = text;
+    return liElement;
+ }

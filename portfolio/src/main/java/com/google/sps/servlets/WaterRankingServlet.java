@@ -22,41 +22,24 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
-
-  ArrayList<String> questions = new ArrayList<String>();
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    String text = getParameter(request, "question-input");
-
-    if (text != null)
-    {
-        questions.add(text);
-    }
-
-    // Respond with the result.
-    response.sendRedirect("index.html");
-  }
+/** Servlet that returns water rankings.*/
+@WebServlet("/water-rankings")
+public class WaterRankingServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     Gson gson = new Gson();
-    String output = gson.toJson(questions); 
+    String output = gson.toJson(getWaterRankings()); 
     response.getWriter().println(output);
   }
 
-  /**
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
-   */
-  private String getParameter(HttpServletRequest request, String name) {
-    String value = request.getParameter(name);
-    return value;
+  private ArrayList<String> getWaterRankings() {
+      ArrayList<String> rankings = new ArrayList<String>();
+      rankings.add("VOSS");
+      rankings.add("FIJI");
+      rankings.add("SMART WATER");
+      rankings.add("CRYSTAL GEYSER");
+      return rankings;
   }
 }
-
