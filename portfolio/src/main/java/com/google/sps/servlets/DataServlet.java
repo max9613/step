@@ -21,12 +21,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
-  ArrayList<String> questions = new ArrayList<String>();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -35,7 +39,12 @@ public class DataServlet extends HttpServlet {
 
     if (text != null)
     {
-        questions.add(text);
+        long timestamp = System.currentTimeMillis();
+        Entity questionEntity = new Entity("user-question");
+        questionEntity.setProperty("content", text);
+        questionEntity.setProperty("timestamp", timestamp);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(questionEntity);
     }
 
     // Respond with the result.
@@ -45,6 +54,14 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
+    ArrayList<String> questions = new ArrayList<String>();
+    Query query = new Query("user-question").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      String content = (String) entity.getProperty("content");
+      questions.add(content);
+    }
     Gson gson = new Gson();
     String output = gson.toJson(questions); 
     response.getWriter().println(output);
