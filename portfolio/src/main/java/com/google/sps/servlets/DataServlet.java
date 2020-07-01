@@ -61,7 +61,6 @@ public class DataServlet extends HttpServlet {
     String numberOfQuestionRequested = request.getParameter("count");
     try {
       int questionCount = Integer.parseInt(numberOfQuestionRequested);
-      if (questionCount >= 0) {
         for (Entity entity : results.asIterable()) {
             if (questionCount > 0) {
                 String content = (String) entity.getProperty("content");
@@ -74,9 +73,6 @@ public class DataServlet extends HttpServlet {
         Gson gson = new Gson();
         String output = gson.toJson(questions); 
         response.getWriter().println(output);
-      } else {
-        System.err.println("Negative value input: " + questionCount);
-      }
     } catch (NumberFormatException e) {
       System.err.println("Could not convert to int: " + numberOfQuestionRequested);
     }
