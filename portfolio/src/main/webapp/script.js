@@ -53,17 +53,27 @@ function getFunFact() {
  */
  async function getUserQuestions() {
      console.log('Fetching user questions.');
-     const response = await fetch('/data');
-     const json = await response.json();
+     const questionsShown = document.getElementById("questions-shown-selector");
      const ranking_container = document.getElementById('questions-container');
      ranking_container.innerText = '';
      ranking_container.children = null;
+     const questionCount = questionsShown.value;
+     console.log(questionCount);
+     const fetchParameter = "/data?count=" + questionCount;
+     const response = await fetch(fetchParameter);
+     const json = await response.json();
      for(index in json) {
         ranking_container.appendChild(
             createListElement(json[index])
         );
     }
      
+ }
+
+ /** Deletes all database entries. */
+ function deleteDatabaseEntries() {
+     console.log("deleting data");
+     fetch("/delete-data").then(getUserQuestions);
  }
 
  /** Creates an <li> element containing text. */
