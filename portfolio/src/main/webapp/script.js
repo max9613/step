@@ -48,6 +48,24 @@ function getFunFact() {
      
  }
 
+ /**
+    Gets and displays user questions from /data.
+ */
+ async function getUserQuestions() {
+     console.log('Fetching user questions.');
+     const response = await fetch('/data');
+     const json = await response.json();
+     const ranking_container = document.getElementById('questions-container');
+     ranking_container.innerText = '';
+     ranking_container.children = null;
+     for(index in json) {
+        ranking_container.appendChild(
+            createListElement(json[index])
+        );
+    }
+     
+ }
+
  /** Creates an <li> element containing text. */
  function createListElement(text) {
     const liElement = document.createElement('li');
