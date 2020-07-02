@@ -35,7 +35,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String text = getParameter(request, "question-input");
+    String text = getParameter(request, "content");
 
     if (text != null)
     {
@@ -45,10 +45,8 @@ public class DataServlet extends HttpServlet {
         questionEntity.setProperty("timestamp", timestamp);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(questionEntity);
+        response.getWriter().println("Question submitted.");
     }
-
-    // Respond with the result.
-    response.sendRedirect("index.html");
   }
 
   @Override
@@ -58,13 +56,27 @@ public class DataServlet extends HttpServlet {
     Query query = new Query("user-question").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
-    for (Entity entity : results.asIterable()) {
-      String content = (String) entity.getProperty("content");
-      questions.add(content);
+    String numberOfQuestionRequested = request.getParameter("count");
+    try {
+      int questionCount = Integer.parseInt(numberOfQuestionRequested);
+      if (questionCount < 0) {
+          throw new IllegalArgumentException("Count can not be a negative number.");
+      }
+        for (Entity entity : results.asIterable()) {
+            if (questionCount > 0) {
+                String content = (String) entity.getProperty("content");
+                questions.add(content);
+                questionCount -= 1;
+            } else {
+                break;
+            }
+        }
+        Gson gson = new Gson();
+        String output = gson.toJson(questions); 
+        response.getWriter().println(output);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + numberOfQuestionRequested);
     }
-    Gson gson = new Gson();
-    String output = gson.toJson(questions); 
-    response.getWriter().println(output);
   }
 
   /**
@@ -76,4 +88,6 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 }
+
+
 

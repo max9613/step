@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="getUserQuestions()">
+  <body onload="startPage()">
     <div id="content" class=hfont>
       <h1 >Maximilian's Portfolio</h1>
       <img src="images/me.JPG" width="50%" height="50%"/>      
@@ -30,12 +30,12 @@
       <h1>That's pretty much all for me, I hope you enjoy this programming blunder I saw the other day!</h1>
       <p>When you forget the f at the beginning of a f' ' in python.</p>
       <img src="images/Quality.jpg" width="50%" height="50%"/>
-      <form action="/data" method="POST" id="question-form">
-        <h2>Questions?</h2>
-        <textarea name="question-input" onclick="displaySubmitButton()" required></textarea>
-        <br/><br/>
-        <input type="submit" />
-      </form>
+      <h2>Questions?</h2>
+      <textarea id="question-input" oninput="checkQuestionSubmitButton()"></textarea>
+      <br/><br/>
+      <button onclick="submitUserQuestion()" id="question-submit-button" hidden="true">Submit</button>
+      <h2>Previous Questions Shown : <input type="number" id="questions-shown-selector" min="0" value="5" style="width:20px" onchange="getUserQuestions()"></h2>
+      <button onclick="deleteDatabaseEntries()">Delete All</button>
       <ul id="questions-container"></ul>
     </div>
   </body>
