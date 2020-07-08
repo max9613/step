@@ -14,3 +14,35 @@
 
 #questions-container {padding-left: 0; padding-top: 20px; margin: 0; list-style-type:none}
 #questions-container li {padding-left: 0; padding-bottom: 20px; padding-top: 0; margin: 0; list-style-type:none}
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 500px;
+}
+
+#navigation-bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgba(76, 137, 235, 0.5);
+}
+
+#navigation-bar li {
+  float: left;
+}
+
+#navigation-bar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-weight:bold;
+  font-size: 25px;
+}
+
+#navigation-bar li a:hover {
+  background-color: rgba(76, 137, 235, 1);
+}

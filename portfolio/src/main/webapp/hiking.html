@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDg-FT4Pu1Yr0wbjnkQYsXbOTO4TzRnGYI"></script>
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="createMap();">
     <div id="content" class=hfont>
+    <ul id="navigation-bar">
+        <li><a href="index.html">&#127968</a></li> 
+        <li><a href="appdev.html">&#128241</a></li>
+        <li><a href="dogs.html">&#128062</a></li> 
+        <li><a href="hiking.html">&#9968</a></li> 
+    </ul>
       <h1>
           Hiking
       </h1>
@@ -21,7 +28,8 @@
       <img src="images/hike5.JPG" width="50%" height="50%"/>
       <img src="images/hike6.JPG" width="50%" height="50%"/>
       <img src="images/hike7.JPG" width="50%" height="50%"/>
-      <p>You can click <a href="index.html" class="hlink">here</a> to return to the main page.</p>
+      <h2>Here are a few of my favorite places to visit while hiking around UCSC.</h2>
+      <div id="map" onclick="closeWindow()"></div>
     </div>
   </body>
 </html>

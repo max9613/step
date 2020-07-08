@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+var previousWindow = null;
+
 /**
  * Adds a random fun fact to the page.
  */
@@ -125,3 +127,39 @@ function getFunFact() {
     liElement.innerText = text;
     return liElement;
  }
+
+/** Creates a map that shows landmarks around Google. */
+function createMap() {
+  console.log("Creating map.");
+  doc = document.getElementById('map');
+  const map = new google.maps.Map(
+      doc,
+      {center: {lat: 36.9881, lng: -122.0582}, zoom: 12});
+  addLandmark(
+      map, 36.970057, -122.078751, 'Wilder Creek',
+      'Wilder creek, includes a swimming hole and waterfall.')
+  addLandmark(
+      map, 37.009965, -122.066170, 'Painted Barrels',
+      'Beautiful painted barrels in the woods.')
+  addLandmark(
+      map, 37.001069, -122.049494, 'Rock Garden',
+      'Pogonip rock garden.')
+  addLandmark(
+      map, 37.006377, -122.059830, 'Buddha Shrine',
+      'Buddha shrine, great to meditate in.')
+}
+
+/** Adds a marker that shows an info window when clicked. */
+function addLandmark(map, lat, lng, title, description) {
+  const marker = new google.maps.Marker(
+      {position: {lat: lat, lng: lng}, map: map, title: title});
+
+  const infoWindow = new google.maps.InfoWindow({content: description});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+    if (previousWindow != null) {
+        previousWindow.close();
+    }
+    previousWindow = infoWindow;
+  });
+}
