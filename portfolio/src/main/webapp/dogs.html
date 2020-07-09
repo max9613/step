@@ -4,28 +4,38 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
   </head>
   <body>
     <div id="content" class=hfont>
     <ul id="navigation-bar">
+        <li><a href="dogs.html">Dogs!</a></li>
         <li><a href="index.html">&#127968</a></li> 
-        <li><a href="appdev.html">&#128241</a></li>
-        <li><a href="dogs.html">&#128062</a></li> 
+        <li><a href="appdev.html">&#128241</a></li> 
         <li><a href="hiking.html">&#9968</a></li> 
     </ul>
-      <h1>
-          Dogs!
-      </h1>
-      <p>
+      <h2>
           I have two dogs, Zoe a black lab mix and Teddy a golden retriever.
-      </p>
-      <img src="images/dogs1.JPG" width="50%" height="50%"/>
-      <img src="images/dogs2.JPG" width="50%" height="50%"/>
-      <img src="images/dogs3.jpg" width="50%" height="50%"/>
-      <img src="images/dogs4.JPG" width="50%" height="50%"/>
-      <img src="images/dogs5.jpg" width="50%" height="50%"/>
-      <img src="images/dogs6.JPG" width="50%" height="50%"/>
+      </h2>
+      <div class="alignRow">
+      <img src="images/dogs7.JPG" width="46%" height="46%" class="imageColumn"/>
+      <img src="images/dogs4.JPG" width="46%" height="46%" class="imageColumn"/>
+      </div>
+      <div class="alignRow">
+      <img src="images/dogs5.jpg" width="46%" height="46%" class="imageColumn"/>
+      <img src="images/dogs6.JPG" width="46%" height="46%" class="imageColumn"/>
+      </div>
+      <div class="alignRow">
+      <img src="images/dogs1.JPG" width="46%" height="46%" class="imageColumn"/>
+      <img src="images/dogs2.JPG" width="46%" height="46%" class="imageColumn"/>
+      </div>
+      <h2>Who do you think is cuter?</h2>
+      <ul id="navigation-bar" name="dog-vote">
+          <li><a onclick="voteTeddy()">Teddy</a></li>
+          <li><a onclick="voteZoe()">Zoe</a></li>
+      </ul>
+      <div id="chart-container"></div>
     </div>
   </body>
 </html>

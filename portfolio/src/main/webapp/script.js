@@ -13,6 +13,8 @@
 // limitations under the License.
 
 var previousWindow = null;
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(getDogVotes);
 
 /**
  * Adds a random fun fact to the page.
@@ -162,4 +164,52 @@ function addLandmark(map, lat, lng, title, description) {
     }
     previousWindow = infoWindow;
   });
+}
+
+ /** Gets the json from the fetched questions */
+ function getVoteJson(response) {
+     const json = response.json();
+     json.then(drawDogChart);
+ }
+
+/** Gets dog votes from datastore. */
+ function getDogVotes() {
+     const fetchParameter = "/dog-data";
+     const response = fetch(fetchParameter);
+     response.then(getVoteJson);
+ }
+
+/** Submits a vote for teddy. */
+function voteTeddy() {
+    doc = document.getElementsByName('dog-vote')[0];
+    doc.hidden = true;
+    fetch("/dog-data?dog=teddy", {method: 'POST'}).then(getDogVotes);
+}
+
+/** Submits a vote for zoe. */
+function voteZoe() {
+    doc = document.getElementsByName('dog-vote')[0];
+    doc.hidden = true;
+    fetch("/dog-data?dog=zoe", {method: 'POST'}).then(getDogVotes);
+}
+
+/** Creates the dog cuteness chart and adds it to the page. */
+function drawDogChart(json) {
+  const data = new google.visualization.DataTable();
+  data.addColumn('string', 'Animal');
+  data.addColumn('number', 'Votes');
+        data.addRows([
+          ['Teddy', parseInt(json[0])],
+          ['Zoe', parseInt(json[1])],
+        ]);
+
+  const options = {
+    'title': '',
+    chartArea:{left:10,top:10,width:'90%',height:'90%'},
+    fontSize: 30
+  };
+
+  const chart = new google.visualization.PieChart(
+      document.getElementById('chart-container'));
+  chart.draw(data, options);
 }
