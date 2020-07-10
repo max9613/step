@@ -35,35 +35,31 @@ public class DogDataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String dog = getParameter(request, "dog");
+    String dogName = getParameter(request, "dog");
 
-    if (dog != null && (dog.equals("zoe") || dog.equals("teddy")))
+    if (dogName != null)
     {
         long timestamp = System.currentTimeMillis();
-        Query query = new Query(dog).addSort("timestamp", SortDirection.DESCENDING);
+        Query query = new Query("dog").addSort("timestamp", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Iterable<Entity> results = datastore.prepare(query).asIterable();
         Entity result = null;
-        // Gets first entity if there is one and clears out the rest.
+        // Gets entity for passed in dog.
         for (Entity entity : results) {
-            if (result == null) {
+            if (result == null && ((String) (entity.getProperty("name"))).equals(dogName)) {
                 result = entity;
-            } else {
-                datastore.delete(entity.getKey());
             }
         }
-        long count = 0;
         if (result != null) {
-            count = (long) result.getProperty("votes");
+            long count = (long) result.getProperty("votes");
             result.setProperty("votes", count + 1);
-        } else {
-            result = new Entity(dog);
+        } else { // If the entity does not exist, creates one.
+            result = new Entity("dog");
             result.setProperty("timestamp", timestamp);
-            result.setProperty("votes", count);
+            result.setProperty("name", dogName);
+            result.setProperty("votes", 1);
         }
-        count += 1;
         datastore.put(result);
-        System.err.println(dog + " " + count);
     }
   }
 
@@ -71,21 +67,16 @@ public class DogDataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     long teddyCount = 0;
-    Query teddyQuery = new Query("teddy").addSort("timestamp", SortDirection.DESCENDING);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    PreparedQuery teddyResults = datastore.prepare(teddyQuery);
-    for (Entity entity : teddyResults.asIterable()) {
-        long count = (long) entity.getProperty("votes");
-        if (count > teddyCount) {
-            teddyCount = count;
-        }
-    }
     long zoeCount = 0;
-    Query zoeQuery = new Query("zoe").addSort("timestamp", SortDirection.DESCENDING);
-    PreparedQuery zoeResults = datastore.prepare(zoeQuery);
-    for (Entity entity : zoeResults.asIterable()) {
+    Query query = new Query("dog").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
         long count = (long) entity.getProperty("votes");
-        if (count > zoeCount) {
+        String name = (String) entity.getProperty("name");
+        if (name.equals("teddy") && count > teddyCount) {
+            teddyCount = count;
+        } else if (name.equals("zoe") && count > zoeCount) {
             zoeCount = count;
         }
     }
