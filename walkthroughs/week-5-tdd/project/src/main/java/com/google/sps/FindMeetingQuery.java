@@ -102,7 +102,7 @@ public final class FindMeetingQuery {
           if (!Collections.disjoint(event.getAttendees(), attendees)) {
               if (mergedEvents.size() > 0) {
                   Event lastEvent = mergedEvents.remove(mergedEvents.size() - 1);
-                  if (event.getWhen().start() >= lastEvent.getWhen().start() && event.getWhen().start() <= lastEvent.getWhen().end()) {
+                  if (event.getWhen().start() <= lastEvent.getWhen().end()) {
                       if (event.getWhen().end() > lastEvent.getWhen().end()) {
                           boolean inclusive = event.getWhen().end() == TimeRange.END_OF_DAY;
                           TimeRange newDuration = TimeRange.fromStartEnd(lastEvent.getWhen().start(), event.getWhen().end(), inclusive);
@@ -129,7 +129,7 @@ public final class FindMeetingQuery {
       List<TimeRange> returnRanges = new ArrayList<TimeRange>();
       List<Event> mergedEvents = getMergedEvents(events, attendees);
       int beginningOfRange = TimeRange.START_OF_DAY;
-      int endOfRange = TimeRange.END_OF_DAY;
+      int endOfRange = TimeRange.START_OF_DAY;
       for (Event event : mergedEvents) {
           if (event.getWhen().start() - beginningOfRange >= duration) {
               returnRanges.add(TimeRange.fromStartDuration(beginningOfRange, event.getWhen().start() - beginningOfRange));
