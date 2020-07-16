@@ -14,14 +14,12 @@
 
 package com.google.sps;
 
-/**
- * Utility class for creating greeting messages.
- */
-public class Greeter {
-  /**
-   * Returns a greeting for the given name.
-   */
-  public String greet(String name) {
-    return "Hello " + name.replaceAll(" ", "");
-  }
+import java.util.Collections;
+import java.util.Comparator;
+
+class EventComparator implements Comparator<Event> {
+    @Override
+    public int compare(Event a, Event b) {
+        return Integer.compare(a.getWhen().start(), b.getWhen().start());
+    }
 }
